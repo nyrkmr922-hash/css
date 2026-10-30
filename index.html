@@ -1,0 +1,2560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C & Data Structures Lab Programs (Weeks 1-10)</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --accent-hover: #1f6feb;
+      --success: #238636;
+      --success-hover: #2ea043;
+      --text-main: #c9d1d9;
+      --text-muted: #8b949e;
+      --text-heading: #f0f6fc;
+      --code-bg: #090d13;
+      --tag-bg: #21262d;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding-bottom: 80px;
+    }
+
+    header {
+      background: linear-gradient(180deg, rgba(22, 27, 34, 0.95) 0%, rgba(13, 17, 23, 0.95) 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 2.5rem 1.5rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .header-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: rgba(88, 166, 255, 0.15);
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+      border: 1px solid rgba(88, 166, 255, 0.3);
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      color: var(--text-heading);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 650px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .action-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.4rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background-color: var(--success);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(35, 134, 54, 0.35);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--success-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background-color: var(--tag-bg);
+      color: var(--text-heading);
+      border-color: var(--border);
+    }
+
+    .btn-secondary:hover {
+      background-color: #30363d;
+      border-color: #8b949e;
+    }
+
+    .search-box {
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.5rem;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-heading);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .nav-weeks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 2rem;
+      justify-content: center;
+    }
+
+    .week-chip {
+      padding: 0.4rem 0.8rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .week-chip:hover, .week-chip.active {
+      background: var(--accent);
+      color: #0d1117;
+      font-weight: 600;
+      border-color: var(--accent);
+    }
+
+    .week-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .week-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .week-title {
+      font-size: 1.4rem;
+      color: var(--text-heading);
+    }
+
+    .question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 1.25rem;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .question-card:hover {
+      border-color: #484f58;
+    }
+
+    .question-header {
+      padding: 1rem 1.25rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .question-text {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-heading);
+    }
+
+    .code-container {
+      position: relative;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      padding: 0.35rem 0.7rem;
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 4px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: #30363d;
+      color: var(--text-heading);
+    }
+
+    pre {
+      background-color: var(--code-bg);
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 0.88rem;
+      color: #e6edf3;
+      line-height: 1.5;
+    }
+
+    .note-box {
+      padding: 0.85rem 1.25rem;
+      background: rgba(88, 166, 255, 0.08);
+      border-left: 3px solid var(--accent);
+      color: var(--text-main);
+      font-size: 0.88rem;
+      margin: 0.75rem 1.25rem;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--success);
+      color: white;
+      padding: 0.75rem 1.25rem;
+      border-radius: 6px;
+      font-weight: 600;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      max-width: 1000px;
+      margin: 2rem auto 0;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 1.6rem; }
+      .action-bar { flex-direction: column; }
+      .btn { justify-content: center; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-content">
+      <span class="badge">DSA & C Lab Complete Package</span>
+      <h1>Data Structures & Algorithms in C</h1>
+      <p class="subtitle">Complete 10-week laboratory questions, solved implementations, notes, and ready-to-run code.</p>
+      
+      <div class="action-bar">
+        <!-- Direct download of the text file -->
+        <a href="abc.txt" download="abc.txt" class="btn btn-primary" id="downloadBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download abc.txt
+        </a>
+
+        <button class="btn btn-secondary" onclick="copyAllContent()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy Everything to Clipboard
+        </button>
+
+        <a href="abc.txt" target="_blank" class="btn btn-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          View abc.txt Raw
+        </a>
+      </div>
+
+      <div class="search-box">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="searchInput" placeholder="Search questions, algorithms (e.g. BST, DFS, Quick Sort, Linked List)..." onkeyup="filterQuestions()">
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="nav-weeks">
+      <span class="week-chip active" onclick="jumpToWeek('all')">All Weeks</span>
+      <a class="week-chip" href="#week-1">W1: Overview</a>
+      <a class="week-chip" href="#week-2">W2: Arrays</a>
+      <a class="week-chip" href="#week-3">W3: Matrices</a>
+      <a class="week-chip" href="#week-4">W4: Stack & Queue</a>
+      <a class="week-chip" href="#week-5">W5: Linked List</a>
+      <a class="week-chip" href="#week-6">W6: DLL & Reverse</a>
+      <a class="week-chip" href="#week-7">W7: Trees (BST)</a>
+      <a class="week-chip" href="#week-8">W8: Sorting I</a>
+      <a class="week-chip" href="#week-9">W9: Sorting II</a>
+      <a class="week-chip" href="#week-10">W10: Graph & MST</a>
+    </div>
+
+    <!-- Week 1 -->
+    <section class="week-section" id="week-1">
+      <div class="week-header">
+        <h2 class="week-title">Week 1: Overview of C</h2>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q1. Implement the string operations strcat(), strcmp(), and strcpy() using pointers.</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+
+void mystrcpy(char *dest, char *src) {
+    while ((*dest++ = *src++) != '\0');
+}
+
+void mystrcat(char *dest, char *src) {
+    while (*dest != '\0')
+        dest++;
+
+    while ((*dest++ = *src++) != '\0');
+}
+
+int mystrcmp(char *s1, char *s2) {
+    while (*s1 &amp;&amp; *s2 &amp;&amp; *s1 == *s2) {
+        s1++;
+        s2++;
+    }
+    return *s1 - *s2;
+}
+
+int main() {
+    char s1[100] = "Hello ";
+    char s2[] = "World";
+    char s3[100];
+
+    mystrcpy(s3, s2);
+    printf("Copied string: %s\n", s3);
+
+    mystrcat(s1, s2);
+    printf("Concatenated string: %s\n", s1);
+
+    printf("Comparison result: %d\n",
+           mystrcmp("Apple", "Apple"));
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q2. Define a structure for an employee with members Name, Age, and Salary. Create an array of employee records and display the employee with the highest salary.</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+
+struct Employee {
+    char name[50];
+    int age;
+    float salary;
+};
+
+int main() {
+    struct Employee e[100];
+    int n, i, max = 0;
+
+    printf("Enter number of employees: ");
+    scanf("%d", &amp;n);
+
+    for (i = 0; i &lt; n; i++) {
+        printf("Enter name, age and salary: ");
+        scanf("%49s %d %f",
+              e[i].name, &amp;e[i].age, &amp;e[i].salary);
+    }
+
+    for (i = 1; i &lt; n; i++) {
+        if (e[i].salary &gt; e[max].salary)
+            max = i;
+    }
+
+    printf("\nEmployee with highest salary:\n");
+    printf("Name: %s\n", e[max].name);
+    printf("Age: %d\n", e[max].age);
+    printf("Salary: %.2f\n", e[max].salary);
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q3. Implement length in feet and inches using a structure. Write routines to add, multiply, and subtract lengths.</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+
+struct Length {
+    int feet;
+    int inches;
+};
+
+struct Length normalize(int feet, int inches) {
+    struct Length l;
+
+    feet += inches / 12;
+    inches %= 12;
+
+    if (inches &lt; 0) {
+        inches += 12;
+        feet--;
+    }
+
+    l.feet = feet;
+    l.inches = inches;
+
+    return l;
+}
+
+struct Length add(struct Length a, struct Length b) {
+    return normalize(a.feet + b.feet,
+                     a.inches + b.inches);
+}
+
+struct Length subtract(struct Length a, struct Length b) {
+    return normalize(a.feet - b.feet,
+                     a.inches - b.inches);
+}
+
+struct Length multiply(struct Length a, int n) {
+    int total = (a.feet * 12 + a.inches) * n;
+    return normalize(total / 12, total % 12);
+}
+
+void display(struct Length l) {
+    printf("%d feet %d inches\n", l.feet, l.inches);
+}
+
+int main() {
+    struct Length a = {5, 8};
+    struct Length b = {3, 9};
+
+    printf("First length: ");
+    display(a);
+
+    printf("Second length: ");
+    display(b);
+
+    printf("Addition: ");
+    display(add(a, b));
+
+    printf("Subtraction: ");
+    display(subtract(a, b));
+
+    printf("Multiplication of first length by 2: ");
+    display(multiply(a, 2));
+
+    return 0;
+}</code></pre>
+        </div>
+        <div class="note-box">Note: Multiplication is implemented as multiplying a length by an integer.</div>
+      </div>
+    </section>
+
+    <!-- Week 2 -->
+    <section class="week-section" id="week-2">
+      <div class="week-header">
+        <h2 class="week-title">Week 2: Arrays</h2>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q1. Write a program to insert a new element into an unsorted array at the kth position.</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int a[100], n, k, value, i;
+
+    printf("Enter array size: ");
+    scanf("%d", &amp;n);
+
+    printf("Enter array elements: ");
+    for (i = 0; i &lt; n; i++)
+        scanf("%d", &amp;a[i]);
+
+    printf("Enter position and value: ");
+    scanf("%d %d", &amp;k, &amp;value);
+
+    if (n &gt;= 100 || k &lt; 1 || k &gt; n + 1) {
+        printf("Invalid position or array full");
+        return 0;
+    }
+
+    for (i = n; i &gt;= k; i--)
+        a[i] = a[i - 1];
+
+    a[k - 1] = value;
+    n++;
+
+    printf("Array after insertion: ");
+    for (i = 0; i &lt; n; i++)
+        printf("%d ", a[i]);
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q2. Write a program to delete an element from a given array (by value).</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int a[100], n, value, i, pos = -1;
+
+    printf("Enter array size: ");
+    scanf("%d", &amp;n);
+
+    printf("Enter array elements: ");
+    for (i = 0; i &lt; n; i++)
+        scanf("%d", &amp;a[i]);
+
+    printf("Enter element to delete: ");
+    scanf("%d", &amp;value);
+
+    for (i = 0; i &lt; n; i++) {
+        if (a[i] == value) {
+            pos = i;
+            break;
+        }
+    }
+
+    if (pos == -1) {
+        printf("Element not found");
+        return 0;
+    }
+
+    for (i = pos; i &lt; n - 1; i++)
+        a[i] = a[i + 1];
+
+    n--;
+
+    printf("Array after deletion: ");
+    for (i = 0; i &lt; n; i++)
+        printf("%d ", a[i]);
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q3. Write a program to delete an element at index i from the given array.</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int a[100], n, index, i;
+
+    printf("Enter array size: ");
+    scanf("%d", &amp;n);
+
+    printf("Enter array elements: ");
+    for (i = 0; i &lt; n; i++)
+        scanf("%d", &amp;a[i]);
+
+    printf("Enter index to delete (0-based): ");
+    scanf("%d", &amp;index);
+
+    if (index &lt; 0 || index &gt;= n) {
+        printf("Invalid index");
+        return 0;
+    }
+
+    for (i = index; i &lt; n - 1; i++)
+        a[i] = a[i + 1];
+
+    n--;
+
+    printf("Array after deletion: ");
+    for (i = 0; i &lt; n; i++)
+        printf("%d ", a[i]);
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Week 3 -->
+    <section class="week-section" id="week-3">
+      <div class="week-header">
+        <h2 class="week-title">Week 3: Matrices</h2>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q1. Write a program to enter two matrices and add them.</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int a[10][10], b[10][10], c[10][10];
+    int r, col, i, j;
+
+    printf("Enter rows and columns: ");
+    scanf("%d %d", &amp;r, &amp;col);
+
+    printf("Enter first matrix:\n");
+    for (i = 0; i &lt; r; i++)
+        for (j = 0; j &lt; col; j++)
+            scanf("%d", &amp;a[i][j]);
+
+    printf("Enter second matrix:\n");
+    for (i = 0; i &lt; r; i++)
+        for (j = 0; j &lt; col; j++)
+            scanf("%d", &amp;b[i][j]);
+
+    for (i = 0; i &lt; r; i++)
+        for (j = 0; j &lt; col; j++)
+            c[i][j] = a[i][j] + b[i][j];
+
+    printf("Sum of matrices:\n");
+    for (i = 0; i &lt; r; i++) {
+        for (j = 0; j &lt; col; j++)
+            printf("%d ", c[i][j]);
+        printf("\n");
+    }
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q2. Write a program to enter two matrices and multiply them.</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int a[10][10], b[10][10], c[10][10] = {0};
+    int r1, c1, r2, c2, i, j, k;
+
+    printf("Enter rows and columns of first matrix: ");
+    scanf("%d %d", &amp;r1, &amp;c1);
+
+    printf("Enter rows and columns of second matrix: ");
+    scanf("%d %d", &amp;r2, &amp;c2);
+
+    if (c1 != r2 || r1 &gt; 10 || c1 &gt; 10 ||
+        r2 &gt; 10 || c2 &gt; 10 || r1 &lt; 1 ||
+        c1 &lt; 1 || r2 &lt; 1 || c2 &lt; 1) {
+        printf("Matrix multiplication not possible");
+        return 0;
+    }
+
+    printf("Enter first matrix:\n");
+    for (i = 0; i &lt; r1; i++)
+        for (j = 0; j &lt; c1; j++)
+            scanf("%d", &amp;a[i][j]);
+
+    printf("Enter second matrix:\n");
+    for (i = 0; i &lt; r2; i++)
+        for (j = 0; j &lt; c2; j++)
+            scanf("%d", &amp;b[i][j]);
+
+    for (i = 0; i &lt; r1; i++)
+        for (j = 0; j &lt; c2; j++)
+            for (k = 0; k &lt; c1; k++)
+                c[i][j] += a[i][k] * b[k][j];
+
+    printf("Product of matrices:\n");
+    for (i = 0; i &lt; r1; i++) {
+        for (j = 0; j &lt; c2; j++)
+            printf("%d ", c[i][j]);
+        printf("\n");
+    }
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q3. Write a program to enter a matrix, check whether it is sparse, and display its triplet representation.</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int a[10][10], triplet[101][3];
+    int r, c, i, j, zeros = 0, count = 0;
+
+    printf("Enter rows and columns: ");
+    scanf("%d %d", &amp;r, &amp;c);
+
+    if (r &lt; 1 || r &gt; 10 || c &lt; 1 || c &gt; 10) {
+        printf("Invalid dimensions");
+        return 0;
+    }
+
+    printf("Enter matrix elements:\n");
+    for (i = 0; i &lt; r; i++) {
+        for (j = 0; j &lt; c; j++) {
+            scanf("%d", &amp;a[i][j]);
+
+            if (a[i][j] == 0)
+                zeros++;
+        }
+    }
+
+    if (zeros &lt;= (r * c) / 2) {
+        printf("Matrix is not sparse");
+        return 0;
+    }
+
+    for (i = 0; i &lt; r; i++) {
+        for (j = 0; j &lt; c; j++) {
+            if (a[i][j] != 0) {
+                count++;
+                triplet[count][0] = i;
+                triplet[count][1] = j;
+                triplet[count][2] = a[i][j];
+            }
+        }
+    }
+
+    triplet[0][0] = r;
+    triplet[0][1] = c;
+    triplet[0][2] = count;
+
+    printf("Triplet representation:\n");
+    printf("Row Column Value\n");
+
+    for (i = 0; i &lt;= count; i++)
+        printf("%d   %d      %d\n",
+               triplet[i][0],
+               triplet[i][1],
+               triplet[i][2]);
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Week 4 -->
+    <section class="week-section" id="week-4">
+      <div class="week-header">
+        <h2 class="week-title">Week 4: Stack & Queue</h2>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q1. Implement Stack using an array, showing overflow and underflow in push and pop operations.</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+#define MAX 5
+
+int stack[MAX];
+int top = -1;
+
+void push(int value) {
+    if (top == MAX - 1) {
+        printf("Stack Overflow!\n");
+        return;
+    }
+
+    stack[++top] = value;
+    printf("%d pushed\n", value);
+}
+
+void pop() {
+    if (top == -1) {
+        printf("Stack Underflow!\n");
+        return;
+    }
+
+    printf("Popped: %d\n", stack[top--]);
+}
+
+void display() {
+    int i;
+
+    if (top == -1) {
+        printf("Stack is empty\n");
+        return;
+    }
+
+    for (i = top; i &gt;= 0; i--)
+        printf("%d ", stack[i]);
+
+    printf("\n");
+}
+
+int main() {
+    push(10);
+    push(20);
+    push(30);
+
+    display();
+
+    pop();
+    display();
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q2. Implement Queue using an array, showing insertion and deletion operations.</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+#define MAX 5
+
+int queue[MAX];
+int front = 0, rear = -1;
+
+void insert(int value) {
+    if (rear == MAX - 1) {
+        printf("Queue Overflow!\n");
+        return;
+    }
+
+    queue[++rear] = value;
+    printf("%d inserted\n", value);
+}
+
+void delete() {
+    if (front &gt; rear) {
+        printf("Queue Underflow!\n");
+        return;
+    }
+
+    printf("Deleted: %d\n", queue[front++]);
+
+    if (front &gt; rear) {
+        front = 0;
+        rear = -1;
+    }
+}
+
+void display() {
+    int i;
+
+    if (rear == -1) {
+        printf("Queue is empty\n");
+        return;
+    }
+
+    for (i = front; i &lt;= rear; i++)
+        printf("%d ", queue[i]);
+
+    printf("\n");
+}
+
+int main() {
+    insert(10);
+    insert(20);
+    insert(30);
+
+    display();
+
+    delete();
+    display();
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q3. Implement Circular Queue using an array, showing insertion and deletion operations.</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+#define MAX 5
+
+int queue[MAX];
+int front = -1, rear = -1;
+
+void insert(int value) {
+    if ((rear + 1) % MAX == front) {
+        printf("Circular Queue Overflow!\n");
+        return;
+    }
+
+    if (front == -1)
+        front = 0;
+
+    rear = (rear + 1) % MAX;
+    queue[rear] = value;
+
+    printf("%d inserted\n", value);
+}
+
+void delete() {
+    if (front == -1) {
+        printf("Circular Queue Underflow!\n");
+        return;
+    }
+
+    printf("Deleted: %d\n", queue[front]);
+
+    if (front == rear) {
+        front = rear = -1;
+    } else {
+        front = (front + 1) % MAX;
+    }
+}
+
+void display() {
+    int i;
+
+    if (front == -1) {
+        printf("Queue is empty\n");
+        return;
+    }
+
+    i = front;
+
+    while (1) {
+        printf("%d ", queue[i]);
+
+        if (i == rear)
+            break;
+
+        i = (i + 1) % MAX;
+    }
+
+    printf("\n");
+}
+
+int main() {
+    insert(10);
+    insert(20);
+    insert(30);
+
+    display();
+
+    delete();
+    insert(40);
+
+    display();
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Week 5 -->
+    <section class="week-section" id="week-5">
+      <div class="week-header">
+        <h2 class="week-title">Week 5: Linked List</h2>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q1. Implement Linear Linked List (creation, display, insertion, deletion, searching).</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct Node {
+    int data;
+    struct Node *next;
+};
+
+struct Node *head = NULL;
+
+void create(int value) {
+    struct Node *n = malloc(sizeof(struct Node));
+    struct Node *temp;
+
+    if (n == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+
+    n->data = value;
+    n->next = NULL;
+
+    if (head == NULL) {
+        head = n;
+        return;
+    }
+
+    temp = head;
+
+    while (temp->next != NULL)
+        temp = temp->next;
+
+    temp->next = n;
+}
+
+void display() {
+    struct Node *temp = head;
+
+    while (temp != NULL) {
+        printf("%d -&gt; ", temp->data);
+        temp = temp->next;
+    }
+
+    printf("NULL\n");
+}
+
+void insert(int value, int position) {
+    struct Node *n, *temp;
+    int i;
+
+    n = malloc(sizeof(struct Node));
+
+    if (n == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+
+    n->data = value;
+
+    if (position == 1) {
+        n->next = head;
+        head = n;
+        return;
+    }
+
+    temp = head;
+
+    for (i = 1; temp != NULL &amp;&amp; i &lt; position - 1; i++)
+        temp = temp->next;
+
+    if (temp == NULL) {
+        printf("Invalid position\n");
+        free(n);
+        return;
+    }
+
+    n->next = temp->next;
+    temp->next = n;
+}
+
+void deleteNode(int position) {
+    struct Node *temp, *del;
+    int i;
+
+    if (head == NULL || position &lt; 1) {
+        printf("Invalid deletion\n");
+        return;
+    }
+
+    if (position == 1) {
+        del = head;
+        head = head->next;
+        free(del);
+        return;
+    }
+
+    temp = head;
+
+    for (i = 1; temp != NULL &amp;&amp; i &lt; position - 1; i++)
+        temp = temp->next;
+
+    if (temp == NULL || temp->next == NULL) {
+        printf("Invalid position\n");
+        return;
+    }
+
+    del = temp->next;
+    temp->next = del->next;
+    free(del);
+}
+
+void search(int value) {
+    struct Node *temp = head;
+    int position = 1;
+
+    while (temp != NULL) {
+        if (temp->data == value) {
+            printf("Found at position %d\n", position);
+            return;
+        }
+
+        temp = temp->next;
+        position++;
+    }
+
+    printf("Element not found\n");
+}
+
+int main() {
+    create(10);
+    create(20);
+    create(30);
+
+    printf("Original list: ");
+    display();
+
+    insert(15, 2);
+    printf("After insertion: ");
+    display();
+
+    deleteNode(3);
+    printf("After deletion: ");
+    display();
+
+    search(30);
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q2. Implement Stack using a Linked List (Push, Pop, Display).</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct Node {
+    int data;
+    struct Node *next;
+};
+
+struct Node *top = NULL;
+
+void push(int value) {
+    struct Node *n = malloc(sizeof(struct Node));
+
+    if (n == NULL) {
+        printf("Stack Overflow!\n");
+        return;
+    }
+
+    n->data = value;
+    n->next = top;
+    top = n;
+
+    printf("%d pushed\n", value);
+}
+
+void pop() {
+    struct Node *temp;
+
+    if (top == NULL) {
+        printf("Stack Underflow!\n");
+        return;
+    }
+
+    temp = top;
+
+    printf("Popped: %d\n", top->data);
+
+    top = top->next;
+    free(temp);
+}
+
+void display() {
+    struct Node *temp = top;
+
+    if (temp == NULL) {
+        printf("Stack is empty\n");
+        return;
+    }
+
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+
+    printf("\n");
+}
+
+int main() {
+    push(10);
+    push(20);
+    push(30);
+
+    display();
+
+    pop();
+    display();
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q3. Implement Queue using a Linked List (Insert, Delete, Display).</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct Node {
+    int data;
+    struct Node *next;
+};
+
+struct Node *front = NULL;
+struct Node *rear = NULL;
+
+void insert(int value) {
+    struct Node *n = malloc(sizeof(struct Node));
+
+    if (n == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+
+    n->data = value;
+    n->next = NULL;
+
+    if (rear == NULL) {
+        front = rear = n;
+    } else {
+        rear->next = n;
+        rear = n;
+    }
+
+    printf("%d inserted\n", value);
+}
+
+void delete() {
+    struct Node *temp;
+
+    if (front == NULL) {
+        printf("Queue Underflow!\n");
+        return;
+    }
+
+    temp = front;
+
+    printf("Deleted: %d\n", front->data);
+
+    front = front->next;
+
+    if (front == NULL)
+        rear = NULL;
+
+    free(temp);
+}
+
+void display() {
+    struct Node *temp = front;
+
+    if (temp == NULL) {
+        printf("Queue is empty\n");
+        return;
+    }
+
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+
+    printf("\n");
+}
+
+int main() {
+    insert(10);
+    insert(20);
+    insert(30);
+
+    display();
+
+    delete();
+    display();
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Week 6 -->
+    <section class="week-section" id="week-6">
+      <div class="week-header">
+        <h2 class="week-title">Week 6: Reversing & Doubly Linked List</h2>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q1. Write a program to display the reverse of a linked list.</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct Node {
+    int data;
+    struct Node *next;
+};
+
+struct Node *head = NULL;
+
+void insert(int value) {
+    struct Node *n = malloc(sizeof(struct Node));
+    struct Node *temp;
+
+    if (n == NULL)
+        return;
+
+    n->data = value;
+    n->next = NULL;
+
+    if (head == NULL) {
+        head = n;
+        return;
+    }
+
+    temp = head;
+
+    while (temp->next != NULL)
+        temp = temp->next;
+
+    temp->next = n;
+}
+
+void reverse() {
+    struct Node *prev = NULL;
+    struct Node *current = head;
+    struct Node *next;
+
+    while (current != NULL) {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+
+    head = prev;
+}
+
+void display() {
+    struct Node *temp = head;
+
+    while (temp != NULL) {
+        printf("%d -&gt; ", temp->data);
+        temp = temp->next;
+    }
+
+    printf("NULL\n");
+}
+
+int main() {
+    insert(10);
+    insert(20);
+    insert(30);
+    insert(40);
+
+    printf("Original list: ");
+    display();
+
+    reverse();
+
+    printf("Reversed list: ");
+    display();
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q2. Increment the data part of every node in a linked list by 10.</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct Node {
+    int data;
+    struct Node *next;
+};
+
+struct Node *head = NULL;
+
+void insert(int value) {
+    struct Node *n = malloc(sizeof(struct Node));
+    struct Node *temp;
+
+    if (n == NULL)
+        return;
+
+    n->data = value;
+    n->next = NULL;
+
+    if (head == NULL) {
+        head = n;
+        return;
+    }
+
+    temp = head;
+
+    while (temp->next != NULL)
+        temp = temp->next;
+
+    temp->next = n;
+}
+
+void display() {
+    struct Node *temp = head;
+
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+
+    printf("\n");
+}
+
+void increment() {
+    struct Node *temp = head;
+
+    while (temp != NULL) {
+        temp->data += 10;
+        temp = temp->next;
+    }
+}
+
+int main() {
+    insert(10);
+    insert(20);
+    insert(30);
+    insert(40);
+
+    printf("Before incrementing: ");
+    display();
+
+    increment();
+
+    printf("After incrementing: ");
+    display();
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q3. Implement Doubly Linked List (creation, display, insertion, deletion, searching).</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct Node {
+    int data;
+    struct Node *prev;
+    struct Node *next;
+};
+
+struct Node *head = NULL;
+
+void insert(int value, int position) {
+    struct Node *n, *temp;
+    int i;
+
+    if (position &lt; 1) {
+        printf("Invalid position\n");
+        return;
+    }
+
+    n = malloc(sizeof(struct Node));
+
+    if (n == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+
+    n->data = value;
+    n->prev = NULL;
+    n->next = NULL;
+
+    if (position == 1) {
+        n->next = head;
+
+        if (head != NULL)
+            head->prev = n;
+
+        head = n;
+        return;
+    }
+
+    temp = head;
+
+    for (i = 1; temp != NULL &amp;&amp; i &lt; position - 1; i++)
+        temp = temp->next;
+
+    if (temp == NULL) {
+        printf("Invalid position\n");
+        free(n);
+        return;
+    }
+
+    n->next = temp->next;
+    n->prev = temp;
+
+    if (temp->next != NULL)
+        temp->next->prev = n;
+
+    temp->next = n;
+}
+
+void deleteNode(int position) {
+    struct Node *temp;
+    int i;
+
+    if (position &lt; 1 || head == NULL) {
+        printf("Invalid deletion\n");
+        return;
+    }
+
+    temp = head;
+
+    for (i = 1; temp != NULL &amp;&amp; i &lt; position; i++)
+        temp = temp->next;
+
+    if (temp == NULL) {
+        printf("Invalid position\n");
+        return;
+    }
+
+    if (temp->prev != NULL)
+        temp->prev->next = temp->next;
+    else
+        head = temp->next;
+
+    if (temp->next != NULL)
+        temp->next->prev = temp->prev;
+
+    free(temp);
+}
+
+void search(int value) {
+    struct Node *temp = head;
+    int position = 1;
+
+    while (temp != NULL) {
+        if (temp->data == value) {
+            printf("Found at position %d\n", position);
+            return;
+        }
+
+        temp = temp->next;
+        position++;
+    }
+
+    printf("Element not found\n");
+}
+
+void display() {
+    struct Node *temp = head;
+
+    while (temp != NULL) {
+        printf("%d &lt;-&gt; ", temp->data);
+        temp = temp->next;
+    }
+
+    printf("NULL\n");
+}
+
+int main() {
+    insert(10, 1);
+    insert(20, 2);
+    insert(30, 3);
+
+    printf("Original list: ");
+    display();
+
+    insert(15, 2);
+    printf("After insertion: ");
+    display();
+
+    deleteNode(3);
+    printf("After deletion: ");
+    display();
+
+    search(30);
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Week 7 -->
+    <section class="week-section" id="week-7">
+      <div class="week-header">
+        <h2 class="week-title">Week 7: Trees & Binary Search Tree (BST)</h2>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q1. Create a BST and display using recursive Preorder, Inorder, and Postorder traversal.</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct Node {
+    int data;
+    struct Node *left;
+    struct Node *right;
+};
+
+struct Node *insert(struct Node *root, int value) {
+    if (root == NULL) {
+        struct Node *n = malloc(sizeof(struct Node));
+
+        if (n == NULL) {
+            printf("Memory allocation failed\n");
+            return NULL;
+        }
+
+        n->data = value;
+        n->left = n->right = NULL;
+
+        return n;
+    }
+
+    if (value &lt; root->data)
+        root->left = insert(root->left, value);
+    else if (value &gt; root->data)
+        root->right = insert(root->right, value);
+
+    return root;
+}
+
+void preorder(struct Node *root) {
+    if (root != NULL) {
+        printf("%d ", root->data);
+        preorder(root->left);
+        preorder(root->right);
+    }
+}
+
+void inorder(struct Node *root) {
+    if (root != NULL) {
+        inorder(root->left);
+        printf("%d ", root->data);
+        inorder(root->right);
+    }
+}
+
+void postorder(struct Node *root) {
+    if (root != NULL) {
+        postorder(root->left);
+        postorder(root->right);
+        printf("%d ", root->data);
+    }
+}
+
+int main() {
+    struct Node *root = NULL;
+    int n, value, i;
+
+    printf("Enter number of nodes: ");
+    scanf("%d", &amp;n);
+
+    for (i = 0; i &lt; n; i++) {
+        scanf("%d", &amp;value);
+        root = insert(root, value);
+    }
+
+    printf("Preorder: ");
+    preorder(root);
+
+    printf("\nInorder: ");
+    inorder(root);
+
+    printf("\nPostorder: ");
+    postorder(root);
+
+    printf("\n");
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q2. Write a program to delete a node from a Binary Search Tree (BST).</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct Node {
+    int data;
+    struct Node *left;
+    struct Node *right;
+};
+
+struct Node *insert(struct Node *root, int value) {
+    if (root == NULL) {
+        struct Node *n = malloc(sizeof(struct Node));
+
+        if (n == NULL)
+            return NULL;
+
+        n->data = value;
+        n->left = n->right = NULL;
+
+        return n;
+    }
+
+    if (value &lt; root->data)
+        root->left = insert(root->left, value);
+    else if (value &gt; root->data)
+        root->right = insert(root->right, value);
+
+    return root;
+}
+
+struct Node *findMin(struct Node *root) {
+    while (root != NULL &amp;&amp; root->left != NULL)
+        root = root->left;
+
+    return root;
+}
+
+struct Node *deleteNode(struct Node *root, int value) {
+    struct Node *temp;
+
+    if (root == NULL)
+        return NULL;
+
+    if (value &lt; root->data) {
+        root->left = deleteNode(root->left, value);
+    } else if (value &gt; root->data) {
+        root->right = deleteNode(root->right, value);
+    } else {
+        if (root->left == NULL) {
+            temp = root->right;
+            free(root);
+            return temp;
+        }
+
+        if (root->right == NULL) {
+            temp = root->left;
+            free(root);
+            return temp;
+        }
+
+        temp = findMin(root->right);
+        root->data = temp->data;
+        root->right = deleteNode(root->right, temp->data);
+    }
+
+    return root;
+}
+
+void inorder(struct Node *root) {
+    if (root != NULL) {
+        inorder(root->left);
+        printf("%d ", root->data);
+        inorder(root->right);
+    }
+}
+
+int main() {
+    struct Node *root = NULL;
+    int n, value, key, i;
+
+    printf("Enter number of nodes: ");
+    scanf("%d", &amp;n);
+
+    for (i = 0; i &lt; n; i++) {
+        scanf("%d", &amp;value);
+        root = insert(root, value);
+    }
+
+    printf("Enter value to delete: ");
+    scanf("%d", &amp;key);
+
+    root = deleteNode(root, key);
+
+    printf("BST after deletion: ");
+    inorder(root);
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q3. Write a program to search for an item in a BST.</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+struct Node {
+    int data;
+    struct Node *left;
+    struct Node *right;
+};
+
+struct Node *insert(struct Node *root, int value) {
+    if (root == NULL) {
+        struct Node *n = malloc(sizeof(struct Node));
+
+        if (n == NULL)
+            return NULL;
+
+        n->data = value;
+        n->left = n->right = NULL;
+
+        return n;
+    }
+
+    if (value &lt; root->data)
+        root->left = insert(root->left, value);
+    else if (value &gt; root->data)
+        root->right = insert(root->right, value);
+
+    return root;
+}
+
+int search(struct Node *root, int key) {
+    if (root == NULL)
+        return 0;
+
+    if (root->data == key)
+        return 1;
+
+    if (key &lt; root->data)
+        return search(root->left, key);
+
+    return search(root->right, key);
+}
+
+int main() {
+    struct Node *root = NULL;
+    int n, value, key, i;
+
+    printf("Enter number of nodes: ");
+    scanf("%d", &amp;n);
+
+    for (i = 0; i &lt; n; i++) {
+        scanf("%d", &amp;value);
+        root = insert(root, value);
+    }
+
+    printf("Enter element to search: ");
+    scanf("%d", &amp;key);
+
+    if (search(root, key))
+        printf("Element found\n");
+    else
+        printf("Element not found\n");
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Week 8 -->
+    <section class="week-section" id="week-8">
+      <div class="week-header">
+        <h2 class="week-title">Week 8: Searching & Sorting (Bubble, Insertion, Linear)</h2>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q1. Sort a given array using Bubble Sort.</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int a[100], n, i, j, temp;
+
+    printf("Enter array size: ");
+    scanf("%d", &amp;n);
+
+    printf("Enter array elements: ");
+    for (i = 0; i &lt; n; i++)
+        scanf("%d", &amp;a[i]);
+
+    for (i = 0; i &lt; n - 1; i++) {
+        for (j = 0; j &lt; n - i - 1; j++) {
+            if (a[j] &gt; a[j + 1]) {
+                temp = a[j];
+                a[j] = a[j + 1];
+                a[j + 1] = temp;
+            }
+        }
+    }
+
+    printf("Sorted array: ");
+    for (i = 0; i &lt; n; i++)
+        printf("%d ", a[i]);
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q2. Sort a given array using Insertion Sort.</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int a[100], n, i, j, key;
+
+    printf("Enter array size: ");
+    scanf("%d", &amp;n);
+
+    printf("Enter array elements: ");
+    for (i = 0; i &lt; n; i++)
+        scanf("%d", &amp;a[i]);
+
+    for (i = 1; i &lt; n; i++) {
+        key = a[i];
+        j = i - 1;
+
+        while (j &gt;= 0 &amp;&amp; a[j] &gt; key) {
+            a[j + 1] = a[j];
+            j--;
+        }
+
+        a[j + 1] = key;
+    }
+
+    printf("Sorted array: ");
+    for (i = 0; i &lt; n; i++)
+        printf("%d ", a[i]);
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q3. Search for an element using Linear Search.</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int a[100], n, key, i, found = 0;
+
+    printf("Enter array size: ");
+    scanf("%d", &amp;n);
+
+    printf("Enter array elements: ");
+    for (i = 0; i &lt; n; i++)
+        scanf("%d", &amp;a[i]);
+
+    printf("Enter element to search: ");
+    scanf("%d", &amp;key);
+
+    for (i = 0; i &lt; n; i++) {
+        if (a[i] == key) {
+            printf("Element found at position %d\n", i + 1);
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found)
+        printf("Element not found\n");
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Week 9 -->
+    <section class="week-section" id="week-9">
+      <div class="week-header">
+        <h2 class="week-title">Week 9: Searching & Sorting (Binary Search, Quick Sort, Merge Sort)</h2>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q1. Search for an element using Binary Search (Array must be sorted).</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int a[100], n, key, low, high, mid, i;
+
+    printf("Enter array size: ");
+    scanf("%d", &amp;n);
+
+    printf("Enter sorted array elements: ");
+    for (i = 0; i &lt; n; i++)
+        scanf("%d", &amp;a[i]);
+
+    printf("Enter element to search: ");
+    scanf("%d", &amp;key);
+
+    low = 0;
+    high = n - 1;
+
+    while (low &lt;= high) {
+        mid = low + (high - low) / 2;
+
+        if (a[mid] == key) {
+            printf("Element found at position %d\n", mid + 1);
+            return 0;
+        } else if (a[mid] &lt; key) {
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+    }
+
+    printf("Element not found\n");
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q2. Sort a given array using Quick Sort.</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+
+void quickSort(int a[], int low, int high) {
+    int i, j, pivot, temp;
+
+    if (low &gt;= high)
+        return;
+
+    pivot = a[low];
+    i = low + 1;
+    j = high;
+
+    while (i &lt;= j) {
+        while (i &lt;= high &amp;&amp; a[i] &lt;= pivot)
+            i++;
+
+        while (a[j] &gt; pivot)
+            j--;
+
+        if (i &lt; j) {
+            temp = a[i];
+            a[i] = a[j];
+            a[j] = temp;
+        }
+    }
+
+    a[low] = a[j];
+    a[j] = pivot;
+
+    quickSort(a, low, j - 1);
+    quickSort(a, j + 1, high);
+}
+
+int main() {
+    int a[100], n, i;
+
+    printf("Enter array size: ");
+    scanf("%d", &amp;n);
+
+    printf("Enter array elements: ");
+    for (i = 0; i &lt; n; i++)
+        scanf("%d", &amp;a[i]);
+
+    quickSort(a, 0, n - 1);
+
+    printf("Sorted array: ");
+    for (i = 0; i &lt; n; i++)
+        printf("%d ", a[i]);
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q3. Sort a given array using Merge Sort.</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+
+int temp[100];
+
+void merge(int a[], int low, int mid, int high) {
+    int i = low, j = mid + 1, k = low;
+
+    while (i &lt;= mid &amp;&amp; j &lt;= high) {
+        if (a[i] &lt;= a[j])
+            temp[k++] = a[i++];
+        else
+            temp[k++] = a[j++];
+    }
+
+    while (i &lt;= mid)
+        temp[k++] = a[i++];
+
+    while (j &lt;= high)
+        temp[k++] = a[j++];
+
+    for (i = low; i &lt;= high; i++)
+        a[i] = temp[i];
+}
+
+void mergeSort(int a[], int low, int high) {
+    int mid;
+
+    if (low &lt; high) {
+        mid = low + (high - low) / 2;
+
+        mergeSort(a, low, mid);
+        mergeSort(a, mid + 1, high);
+
+        merge(a, low, mid, high);
+    }
+}
+
+int main() {
+    int a[100], n, i;
+
+    printf("Enter array size: ");
+    scanf("%d", &amp;n);
+
+    printf("Enter array elements: ");
+    for (i = 0; i &lt; n; i++)
+        scanf("%d", &amp;a[i]);
+
+    mergeSort(a, 0, n - 1);
+
+    printf("Sorted array: ");
+    for (i = 0; i &lt; n; i++)
+        printf("%d ", a[i]);
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Week 10 -->
+    <section class="week-section" id="week-10">
+      <div class="week-header">
+        <h2 class="week-title">Week 10: Graph & Minimum Spanning Tree</h2>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q1. Implement Depth First Search (DFS) on a graph.</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+
+int graph[20][20];
+int visited[20];
+int n;
+
+void DFS(int vertex) {
+    int i;
+
+    visited[vertex] = 1;
+    printf("%d ", vertex);
+
+    for (i = 0; i &lt; n; i++) {
+        if (graph[vertex][i] == 1 &amp;&amp; !visited[i])
+            DFS(i);
+    }
+}
+
+int main() {
+    int i, j, start;
+
+    printf("Enter number of vertices: ");
+    scanf("%d", &amp;n);
+
+    printf("Enter adjacency matrix:\n");
+
+    for (i = 0; i &lt; n; i++) {
+        for (j = 0; j &lt; n; j++)
+            scanf("%d", &amp;graph[i][j]);
+    }
+
+    printf("Enter starting vertex (0 to %d): ", n - 1);
+    scanf("%d", &amp;start);
+
+    if (start &lt; 0 || start &gt;= n) {
+        printf("Invalid starting vertex\n");
+        return 0;
+    }
+
+    for (i = 0; i &lt; n; i++)
+        visited[i] = 0;
+
+    printf("DFS Traversal: ");
+    DFS(start);
+
+    printf("\n");
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q2. Implement Breadth First Search (BFS) on a graph.</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+
+int graph[20][20];
+int visited[20];
+int queue[20];
+int n;
+
+void BFS(int start) {
+    int front = 0, rear = 0;
+    int vertex, i;
+
+    visited[start] = 1;
+    queue[rear++] = start;
+
+    while (front &lt; rear) {
+        vertex = queue[front++];
+
+        printf("%d ", vertex);
+
+        for (i = 0; i &lt; n; i++) {
+            if (graph[vertex][i] == 1 &amp;&amp; !visited[i]) {
+                visited[i] = 1;
+                queue[rear++] = i;
+            }
+        }
+    }
+}
+
+int main() {
+    int i, j, start;
+
+    printf("Enter number of vertices: ");
+    scanf("%d", &amp;n);
+
+    printf("Enter adjacency matrix:\n");
+
+    for (i = 0; i &lt; n; i++) {
+        for (j = 0; j &lt; n; j++)
+            scanf("%d", &amp;graph[i][j]);
+    }
+
+    printf("Enter starting vertex (0 to %d): ", n - 1);
+    scanf("%d", &amp;start);
+
+    if (start &lt; 0 || start &gt;= n) {
+        printf("Invalid starting vertex\n");
+        return 0;
+    }
+
+    for (i = 0; i &lt; n; i++)
+        visited[i] = 0;
+
+    printf("BFS Traversal: ");
+    BFS(start);
+
+    printf("\n");
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-header">
+          <div class="question-text">Q3. Implement Prim's algorithm for Minimum Spanning Tree (MST).</div>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copySnippet(this)">Copy Code</button>
+          <pre><code>#include &lt;stdio.h&gt;
+
+#define MAX 20
+#define INF 999999
+
+int main() {
+    int graph[MAX][MAX];
+    int selected[MAX] = {0};
+    int n, i, j;
+    int edges = 0;
+    int totalCost = 0;
+    int min, x = -1, y = -1;
+
+    printf("Enter number of vertices: ");
+    scanf("%d", &amp;n);
+
+    if (n &lt; 1 || n &gt; MAX) {
+        printf("Invalid number of vertices\n");
+        return 0;
+    }
+
+    printf("Enter weighted adjacency matrix:\n");
+    printf("Enter 0 where no edge exists.\n");
+
+    for (i = 0; i &lt; n; i++) {
+        for (j = 0; j &lt; n; j++)
+            scanf("%d", &amp;graph[i][j]);
+    }
+
+    selected[0] = 1;
+
+    printf("Edges in Minimum Spanning Tree:\n");
+
+    while (edges &lt; n - 1) {
+        min = INF;
+        x = -1;
+        y = -1;
+
+        for (i = 0; i &lt; n; i++) {
+            if (selected[i]) {
+                for (j = 0; j &lt; n; j++) {
+                    if (!selected[j] &amp;&amp;
+                        graph[i][j] != 0 &amp;&amp;
+                        graph[i][j] &lt; min) {
+
+                        min = graph[i][j];
+                        x = i;
+                        y = j;
+                    }
+                }
+            }
+        }
+
+        if (x == -1) {
+            printf("Graph is disconnected; MST does not exist.\n");
+            return 0;
+        }
+
+        printf("%d - %d : Weight %d\n", x, y, min);
+
+        totalCost += min;
+        selected[y] = 1;
+        edges++;
+    }
+
+    printf("Total cost of MST = %d\n", totalCost);
+
+    return 0;
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>C & Data Structures Laboratory Coursework Repository &bull; Ready to deploy on GitHub Pages, Netlify, or Vercel</p>
+    </footer>
+  </main>
+
+  <div class="toast" id="toast">Copied to clipboard!</div>
+
+  <script>
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    function copySnippet(button) {
+      const pre = button.parentElement.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(() => {
+        showToast('Code copied to clipboard!');
+        const originalText = button.innerText;
+        button.innerText = 'Copied!';
+        setTimeout(() => button.innerText = originalText, 1500);
+      });
+    }
+
+    function copyAllContent() {
+      fetch('abc.txt')
+        .then(res => res.text())
+        .then(text => {
+          navigator.clipboard.writeText(text).then(() => {
+            showToast('All lab questions & code copied to clipboard!');
+          });
+        })
+        .catch(() => {
+          // Fallback if fetch fails
+          let allText = '';
+          document.querySelectorAll('.question-card').forEach(card => {
+            allText += card.querySelector('.question-text').innerText + '\n';
+            allText += card.querySelector('pre').innerText + '\n\n';
+          });
+          navigator.clipboard.writeText(allText).then(() => {
+            showToast('All lab code copied to clipboard!');
+          });
+        });
+    }
+
+    function filterQuestions() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.question-card');
+      const sections = document.querySelectorAll('.week-section');
+
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        if (text.includes(query)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      sections.forEach(sec => {
+        const visibleCards = sec.querySelectorAll('.question-card[style="display: block;"], .question-card:not([style*="display: none"])');
+        if (query && visibleCards.length === 0) {
+          sec.style.display = 'none';
+        } else {
+          sec.style.display = 'block';
+        }
+      });
+    }
+
+    function jumpToWeek(id) {
+      document.querySelectorAll('.week-chip').forEach(c => c.classList.remove('active'));
+      event.target.classList.add('active');
+      if (id === 'all') {
+        document.querySelectorAll('.week-section').forEach(s => s.style.display = 'block');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  </script>
+</body>
+</html>
